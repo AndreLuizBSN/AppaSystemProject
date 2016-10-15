@@ -1,0 +1,91 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="titulo">Pesquisa de Contas a Receber</ui:define>
+    
+    <ui:define name="corpo">
+    	<h:form id="frmPesquisa">
+            <h1>Pesquisa de Contas a Receber</h1>
+	    	<p:messages autoUpdate="true" closable="true" />
+            <p:toolbar style="margin-top: 20px">
+                <p:toolbarGroup>
+                    <p:commandButton value="Pesquisar / Carregar" icon="ui-icon-search" action="#{pesquisaContaReceberBean.pesquisar}" update="@form" />
+                </p:toolbarGroup>
+                <p:toolbarGroup style="margin-left:15px; border-left: 1px solid #fff;">
+                    <p:button value="Novo" outcome="/financeiro/CadastroContaReceber" icon="ui-icon-document" />
+                </p:toolbarGroup>
+            </p:toolbar>
+
+            <p:panelGrid columns="2" id="painel" style="width: 100%; margin-top: 20px"
+                        columnClasses="rotulo, campo">
+                <p:outputLabel value="Número" for="numero"/>
+                <p:inputText id="numero" value="#{pesquisaContaReceberBean.filtro.numero}"/>
+                
+                <p:outputLabel value="Situação" />
+	    		<p:selectManyCheckbox  value="#{pesquisaContaReceberBean.filtro.situacaos}">
+	    			<f:selectItems value="#{pesquisaContaReceberBean.situacaos}" var="situacao"
+	    				itemValue="#{situacao}" itemLabel="#{situacao.descricao}"/>
+	    		</p:selectManyCheckbox>
+	    		
+            </p:panelGrid>
+
+
+	    		<p:outputLabel value="EntradaSaida" style="display:none;"/>
+	    		<p:inputText value="#{pesquisaContaReceberBean.filtro.entradaSaida}" style="display:none;"/>
+
+            <p:dataTable id="produtosTable" value="#{pesquisaContaReceberBean.contasFiltrados}" var="conta"
+                style="margin-top: 20px" emptyMessage="Nenhuma Conta a Receber encontrada." rows="20"
+                paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom">
+                
+                <p:column style="width: 100px; text-align: center" headerText="Ações">
+	    			<p:button icon="ui-icon-pencil" title="Editar" outcome="/financeiro/CadastroContaReceber">
+	    				<f:param name="conta" value="#{conta.id}"/>
+	    			</p:button>
+	    			<p:commandButton icon="ui-icon-trash" title="Excluir" process="@this" 
+	    				update="frmPesquisa, confirmacaoExclusaoDialog" actionListener="#{pesquisaContaReceberBean.excluir(conta.id)}">
+                        <p:confirm header="Exclusão de Conta a Receber"
+                                   message="Tem certeza que deseja excluir o Conta a Receber?"
+                                   icon="ui-icon-alert"/>
+                        <f:setPropertyActionListener value="#{pesquisaContaReceberBean.contaSelecionado}" target="#{Conta}"/>
+                    </p:commandButton>
+
+                    <p:confirmDialog global="true" id="confirmacaoExclusaoDialog">
+                        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                        <p:commandButton value="Não"  type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    </p:confirmDialog>
+	    		</p:column>
+                <p:column headerText="Código" style="text-align: center; width: 100px">
+                        <h:outputText value="#{conta.id}" />
+                </p:column>
+                <p:column headerText="Número-parcela">
+                        <h:outputText value="#{conta.numeroParcela}" />
+                </p:column>
+                <p:column headerText="Pessoa" style="width: 250px">
+                        <h:outputText value="#{conta.pessoa.nome}"/>
+                </p:column>
+	    		<p:column headerText="Situação">
+                        <h:outputText value="#{conta.situacao.descricao}"/>
+                </p:column>
+	    		<p:column headerText="Data de Vencimento" style="text-align: center; width: 140px">
+	    			<h:outputText value="#{conta.dataVencimento}">
+	    				<f:convertDateTime pattern="dd/MM/yyyy" />
+	    			</h:outputText>
+	    		</p:column>
+	    		<p:column headerText="Valor total" style="text-align: right; width: 120px">
+	    			<h:outputText value="#{conta.valorTotal}">
+	    				<f:convertNumber type="currency" />
+	    			</h:outputText>
+	    		</p:column>
+	    		<p:column headerText="Residual" style="text-align: right; width: 120px">
+	    			<h:outputText value="#{conta.valorRestante}">
+	    				<f:convertNumber type="currency" />
+	    			</h:outputText>
+	    		</p:column>
+	    </p:dataTable>
+    	</h:form>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,133 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:o="http://omnifaces.org/ui">
+
+    <ui:define name="titulo">#{cadastroClienteBean.editando ? 'Edição de Cliente' : 'Novo Cliente'}</ui:define>
+    
+    <ui:define name="corpo">
+    	<f:metadata>
+    		<o:viewParam name="cliente" value="#{cadastroClienteBean.pessoa}"/>
+    		<f:event listener="#{cadastroClienteBean.inicializar}" type="preRenderView" />
+    	</f:metadata>
+    	
+    	<h:form>
+	    	<h1>#{cadastroClienteBean.editando ? 'Edição de Cliente' : 'Novo Cliente'}</h1>
+	    	
+	    	<p:messages autoUpdate="true" closable="true" />
+	    	
+	    	<p:toolbar style="margin-top: 20px">
+	    		<p:toolbarGroup>
+	    			<p:button value="Novo" outcome="/pessoas/CadastroCliente" icon="ui-icon-document"/>
+	    			<p:commandButton value="Salvar" id="botaoSalvar"
+	    				action="#{cadastroClienteBean.salvar}" icon="ui-icon-disk" />
+	    		</p:toolbarGroup>
+	    		<p:toolbarGroup style="margin-left:15px; border-left: 1px solid #fff;">
+	    			<p:button value="Pesquisa" outcome="/pessoas/PesquisaClientes" icon="ui-icon-search"/>
+	    		</p:toolbarGroup>
+	    	</p:toolbar>
+	    	
+	    	<p:panelGrid columns="2" id="painel" style="width: 100%; margin-top: 20px"
+	    			columnClasses="rotulo, campo">
+	    		<p:outputLabel value="Razão Social" for="razaoSocial"/>
+	    		<p:inputText id="razaoSocial" size="100" maxlength="200"
+	    			value="#{cadastroClienteBean.pessoa.razaoSocial}" required="true"/>
+	    		
+	    		<p:outputLabel value="Nome Fantasia" for="nomeFantasia"/>
+	    		<p:inputText id="nomeFantasia" size="100" maxlength="200"
+	    			value="#{cadastroClienteBean.pessoa.nomeFantasia}" required="true"/>
+	    		
+	    		<p:outputLabel value="CNPJ/CPF" for="cnpjCpf"/>
+	    		<p:inputText id="cnpjCpf" size="18" maxlength="18"
+	    			value="#{cadastroClienteBean.pessoa.cnpjCpf}" required="true"/>
+	    		
+	    		<p:outputLabel value="IE/RG" for="ieRg"/>
+	    		<p:inputText id="ieRg" size="10" maxlength="10"
+	    			value="#{cadastroClienteBean.pessoa.rgIe}"/>
+	    		
+	    		
+	    		<p:outputLabel value="Tipo da Pessoa" for="tipo"/>
+	    		<p:selectOneMenu id="tipo" value="#{cadastroClienteBean.pessoa.tipoPessoa}" required="true">
+	    			<f:selectItem itemLabel="Selecione a categoria"/>
+	    			<f:selectItems value="#{cadastroClienteBean.tipoPessoas}" var="tipo"
+	    				itemValue="#{tipo}" itemLabel="#{tipo.descricao}" />
+	    		</p:selectOneMenu>
+	    		
+	    		<p:outputLabel value="Ativo" for="ativo"/>
+	    		<p:selectBooleanCheckbox id="ativo" value="#{cadastroClienteBean.pessoa.ativo}"/>
+	    		
+	    	</p:panelGrid>
+	    	
+	    	<p:tabView style="margin-top: 20px">
+	    		<p:tab title="Endereços">
+	    			
+	    			<p:panelGrid columns="4" id="painelEndereco" style="width: 100%; margin-top: 20px"
+	    				columnClasses="rotulo, campo">
+		    			
+		    			<p:outputLabel value="Logradouro" for="log"/>
+			    		<p:inputText id="log" size="50" maxlength="150"
+			    			value="#{cadastroClienteBean.enderecoSelecionado.logradouro}" required="true"/>
+	    			
+	    				<p:outputLabel value="Número" for="numero"/>
+			    		<p:inputText id="numero" size="5" maxlength="20"
+			    			value="#{cadastroClienteBean.enderecoSelecionado.numero}" required="true"/>
+	    			
+	    				<p:outputLabel value="CEP" for="cep"/>
+			    		<p:inputText id="cep" size="9" maxlength="9"
+			    			value="#{cadastroClienteBean.enderecoSelecionado.cep}" required="true"/>
+	    			
+	    				<p:outputLabel value="Complemento" for="comp"/>
+			    		<p:inputText id="comp" size="50" maxlength="150"
+			    			value="#{cadastroClienteBean.enderecoSelecionado.complemento}"/>
+	    			
+	    				<p:outputLabel value="Cidade" for="cidade"/>
+				        <p:autoComplete id="cidade" size="40" dropdown="true" 
+				        	value="#{cadastroClienteBean.enderecoSelecionado.cidade}"
+				        	completeMethod="#{cadastroClienteBean.completarCidade}"
+				        	var="cidade" itemLabel="#{cidade.nome}" itemValue="#{cidade}"
+				        	forceSelection="true" required="true">
+				        	<p:ajax event="change" process="@this" update="uf"
+		        				listener="#{cadastroClienteBean.carregarEstado}"/>
+				        </p:autoComplete>
+				        
+				        <p:outputLabel value="Estado" for="uf"/>
+				        <h:outputText id="uf" value="#{cadastroClienteBean.enderecoSelecionado.uf}"/>
+	    			
+	    				<p:outputLabel value="Tipo da Endereço" for="tipoEnd"/>
+			    		<p:selectOneMenu id="tipoEnd"
+			    			value="#{cadastroClienteBean.enderecoSelecionado.tipo}" required="true">
+			    			<f:selectItem itemLabel="Selecione o tipo de Endereço"/>
+			    			<f:selectItems value="#{cadastroClienteBean.tipoEnderecos}" var="tipoEnd"
+			    				itemValue="#{tipoEnd}" itemLabel="#{tipoEnd.descricao}" />
+			    		</p:selectOneMenu>
+			    		
+			    		<p:commandButton value="Adicionar" update="tabelaItens, painelEndereco"
+			    			action="#{cadastroClienteBean.adicionarEndereco}"/>
+	    			
+	    			</p:panelGrid>
+	    			
+	    			<p:dataTable value="#{cadastroClienteBean.enderecos}" var="endereco" id="tabelaItens" rowIndexVar="linha">
+	    				
+	    				<p:column>
+	    					<p:commandButton value="Editar" action="#{cadastroClienteBean.editarEndereco(linha)}"
+	    						update="tabelaItens, painelEndereco"/>
+	    				</p:column>
+	    				
+						<p:column headerText="Logradouro">
+							<h:outputText value="#{endereco.logradouro}"/>
+						</p:column>
+						
+						<p:column headerText="Cidade">
+							<h:outputText value="#{endereco.cidade.nome}"/>
+						</p:column>
+						
+					</p:dataTable>
+	    			
+	    		</p:tab>
+	    	</p:tabView>
+    	</h:form>
+    </ui:define>
+</ui:composition>

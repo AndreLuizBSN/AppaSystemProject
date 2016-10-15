@@ -1,0 +1,55 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+
+	<p:panelGrid columns="2" id="painel" style="width: 100%;"
+                columnClasses="rotulo, campo">
+
+		<p:outputLabel value="Condição de Pagamento" for="condicaoPagamento"/>
+        <p:autoComplete id="condicaoPagamento" size="40" dropdown="true" 
+        	value="#{cadastroPedidoBean.pedido.condicaoPagamento}"
+        	completeMethod="#{cadastroPedidoBean.completarCondicaoPagamento}"
+        	var="condicaoPagamento" itemLabel="#{condicaoPagamento.nome}" itemValue="#{condicaoPagamento}" forceSelection="true"
+        	disabled="#{cadastroPedidoBean.pedido.naoEditavel}"/>
+
+		<p:outputLabel value="Data Base" for="dataBase"/>
+		<p:column>
+			<p:calendar id="dataBase" size="10" pattern="dd/MM/yyyy" required="true"
+				value="#{cadastroPedidoBean.pedido.dataBaseParcela}"
+	        	disabled="#{cadastroPedidoBean.pedido.naoEditavel}"/>
+	        <p:commandButton value="Recalcular Parcelas"
+	        	style="margin-left: 15px;" action="#{cadastroPedidoBean.recalcularParcelas}"
+	        	update="tabelaParcelas"/>
+        </p:column>
+	</p:panelGrid>
+	
+	<p:dataTable value="#{cadastroPedidoBean.parcelasPedido}"
+   		var="parcela" id="tabelaParcelas" rowIndexVar="linha" style="text-align: center; width: 700px">
+		<p:column headerText="Data">
+			<h:outputText value="#{parcela.data}">
+				<f:convertDateTime pattern="dd/MM/yyyy" />
+			</h:outputText>
+   			<p:selectBooleanButton value="#{cadastroPedidoBean.alterarDataBt}" 
+   				onLabel="" offLabel="" offIcon="ui-icon-pencil" onIcon="ui-icon-disk"
+   				style="height:23px; width:30px; margin-bottom:-7px; margin-left:5px;"/>
+		</p:column>
+		<p:column headerText="Valor">
+			<h:outputText value="#{parcela.valor}">
+   				<f:convertNumber type="currency" />
+   			</h:outputText>
+   			<p:selectBooleanButton value="#{cadastroPedidoBean.alterarValorBt}" 
+   				onLabel="" offLabel="" offIcon="ui-icon-pencil" onIcon="ui-icon-disk"
+   				style="height:23px; width:30px; margin-bottom:-7px; margin-left:5px;"/>
+		</p:column>
+		<p:column headerText="Sequência" style="width: 70px">
+			<h:outputText value="#{parcela.sequencia}"/>
+		</p:column>
+		<p:column headerText="Ajuste" style="width: 50px">
+			<h:outputText value="#{parcela.ajuste ? 'Sim' : 'Não'}"/>
+		</p:column>
+	</p:dataTable>
+		
+  	
+</ui:composition>

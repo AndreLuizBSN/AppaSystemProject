@@ -1,0 +1,48 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="titulo">Pesquisa de cidades</ui:define>
+    
+    <ui:define name="corpo">
+    	<h:form>
+            <h1>Pesquisa de cidades</h1>
+	    	
+            <p:toolbar style="margin-top: 20px">
+                <p:toolbarGroup>
+                    <p:commandButton value="Pesquisar" icon="ui-icon-search" action="#{pesquisaCidadesBean.pesquisar}" update="@form"/>
+                </p:toolbarGroup>
+                <p:toolbarGroup align="right">
+                    <p:button value="Novo" outcome="/localidades/CadastroCidade" icon="ui-icon-document"/>
+                </p:toolbarGroup>
+            </p:toolbar>
+	    	
+            <p:panelGrid columns="2" id="painel" style="width: 100%; margin-top: 20px"
+                            columnClasses="rotulo, campo">
+
+                <p:outputLabel value="Nome" for="nome"/>
+                <p:inputText id="nome" size="60" value="#{pesquisaCidadesBean.filtro.nome}"/>
+                
+            </p:panelGrid>
+	    	
+            <p:dataTable id="produtosTable" value="#{pesquisaCidadesBean.cidadesFiltrados}" var="cidades"
+                style="margin-top: 20px" emptyMessage="Nenhuma cidade encontrada." rows="20"
+                paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom">
+                <p:column style="width: 100px; text-align: center;" headerText="Ações">
+                    <p:button icon="ui-icon-pencil" title="Editar" outcome="/localidades/CadastroCidade">
+	    				<f:param name="cidade" value="#{cidades.id}"/>
+	    			</p:button>
+                </p:column>
+                <p:column headerText="Nome">
+                    <h:outputText value="#{cidades.nome}" />
+                </p:column>
+                <p:column headerText="UF" style="width: 20px">
+                    <h:outputText value="#{cidades.estado.sigla}" style="text-align:center;"/>
+                </p:column>
+	    </p:dataTable>
+    	</h:form>
+    </ui:define>
+</ui:composition>

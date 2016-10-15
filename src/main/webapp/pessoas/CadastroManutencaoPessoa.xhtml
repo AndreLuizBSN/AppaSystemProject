@@ -1,0 +1,73 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:o="http://omnifaces.org/ui">
+
+    <ui:define name="titulo">Manutenção de Pessoa</ui:define>
+    
+    <ui:define name="corpo">
+    	<f:metadata>
+    		<o:viewParam name="pessoa" value="#{cadastroManutencaoPessoaBean.pessoa}"/>
+    		<f:event listener="#{cadastroManutencaoPessoaBean.inicializar}" type="preRenderView" />
+    	</f:metadata>
+    	
+    	<h:form>
+	    	<h1>Manutenção de Pessoa</h1>
+	    	
+	    	<p:messages autoUpdate="true" closable="true" />
+	    	
+	    	<p:toolbar style="margin-top: 20px">
+	    		<p:toolbarGroup>
+	    			<p:commandButton value="Salvar" id="botaoSalvar"
+	    				action="#{cadastroManutencaoPessoaBean.salvar}" icon="ui-icon-disk" />
+	    		</p:toolbarGroup>
+	    		<p:toolbarGroup style="margin-left:15px; border-left: 1px solid #fff;">
+	    			<p:button value="Pesquisa" outcome="/pessoas/PesquisaManutencaoPessoas" icon="ui-icon-search"/>
+	    		</p:toolbarGroup>
+	    	</p:toolbar>
+	    	
+	    	<p:panelGrid columns="2" id="painel" style="width: 100%; margin-top: 20px"
+	    			columnClasses="rotulo, campo">
+	    		<p:outputLabel value="Razão Social" for="razaoSocial"/>
+	    		<h:outputText id="razaoSocial" size="100" maxlength="200"
+	    			value="#{cadastroManutencaoPessoaBean.pessoa.razaoSocial}"/>
+	    		
+	    		<p:outputLabel value="Nome Fantasia" for="nomeFantasia"/>
+	    		<h:outputText id="nomeFantasia" size="100" maxlength="200"
+	    			value="#{cadastroManutencaoPessoaBean.pessoa.nomeFantasia}"/>
+	    		
+	    		<p:outputLabel value="CNPJ/CPF" for="cnpjCpf"/>
+	    		<h:outputText id="cnpjCpf" size="18" maxlength="18"
+	    			value="#{cadastroManutencaoPessoaBean.pessoa.cnpjCpf}"/>
+	    		
+	    		<p:outputLabel value="IE/RG" for="ieRg"/>
+	    		<h:outputText id="ieRg" size="10" maxlength="10"
+	    			value="#{cadastroManutencaoPessoaBean.pessoa.rgIe}"/>
+	    		
+	    		<p:outputLabel value="Tipo da Pessoa" for="tipo"/>
+	    		<h:outputText id="tipo" size="10" maxlength="10"
+	    			value="#{cadastroManutencaoPessoaBean.pessoa.tipoPessoa.descricao}"/>
+	    		
+	    		<p:outputLabel value="Ativo" for="ativo"/>
+	    		<p:selectBooleanCheckbox id="ativo" value="#{cadastroManutencaoPessoaBean.pessoa.ativo}"/>
+	    		
+	    		<p:outputLabel value="Cliente" for="cliente"/>
+	    		<p:selectBooleanCheckbox id="cliente" value="#{cadastroManutencaoPessoaBean.pessoa.cliente}"/>
+	    		
+	    		<p:outputLabel value="Fornecedor" for="forne"/>
+	    		<p:selectBooleanCheckbox id="forne" value="#{cadastroManutencaoPessoaBean.pessoa.fornecedor}"/>
+	    		
+	    		<p:outputLabel value="Funcionário" for="func"/>
+	    		<p:selectBooleanCheckbox id="func" value="#{cadastroManutencaoPessoaBean.pessoa.funcionario}"/>
+	    		
+	    		<p:outputLabel value="Transportadora" for="trans"/>
+	    		<p:selectBooleanCheckbox id="trans" value="#{cadastroManutencaoPessoaBean.pessoa.transportadora}"/>
+	    		
+	    		
+	    	</p:panelGrid>
+    	</h:form>
+    </ui:define>
+</ui:composition>

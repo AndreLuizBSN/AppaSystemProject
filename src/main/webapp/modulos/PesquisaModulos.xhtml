@@ -1,0 +1,45 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="titulo">Pesquisa de Modulos</ui:define>
+    
+    <ui:define name="corpo">
+    	<h:form id="frmPesquisa">
+            <h1>Pesquisa de Modulos</h1>
+	    	<p:messages autoUpdate="true" closable="true" />
+            <p:toolbar style="margin-top: 20px">
+                <p:toolbarGroup>
+                    <p:commandButton value="Pesquisar" icon="ui-icon-search" action="#{pesquisaModulosBean.pesquisar}" update="@form" />
+                </p:toolbarGroup>
+                <p:toolbarGroup style="margin-left:15px; border-left: 1px solid #fff;">
+                    <p:button value="Novo" outcome="/modulos/CadastroModulo" icon="ui-icon-document" />
+                </p:toolbarGroup>
+            </p:toolbar>
+
+            <p:panelGrid columns="2" id="painel" style="width: 100%; margin-top: 20px"
+                        columnClasses="rotulo, campo">
+            </p:panelGrid>
+
+            <p:dataTable id="produtosTable" value="#{pesquisaModulosBean.modulosFiltradas}" var="modulo"
+                style="margin-top: 20px" emptyMessage="Nenhum modulo encontrado." rows="20"
+                paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom">
+                
+                <p:column style="width: 100px; text-align: center" headerText="Ações">
+	    			<p:button icon="ui-icon-pencil" title="Editar" outcome="/modulos/CadastroModulo">
+	    				<f:param name="modulo" value="#{modulo.id}"/>
+	    			</p:button>
+	    		</p:column>
+                <p:column headerText="Nome">
+                        <h:outputText value="#{modulo.nome}" />
+                </p:column>
+                <p:column headerText="Pai" style="width: 250px">
+                        <h:outputText value="#{modulo.eModulos.descricao}"/>
+                </p:column>
+	    </p:dataTable>
+    	</h:form>
+    </ui:define>
+</ui:composition>

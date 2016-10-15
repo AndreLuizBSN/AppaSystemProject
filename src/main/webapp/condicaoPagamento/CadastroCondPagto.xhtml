@@ -1,0 +1,64 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:o="http://omnifaces.org/ui">
+
+    <ui:define name="titulo">Nova Condição de Pagamento</ui:define>
+    
+    <ui:define name="corpo">
+    	<f:metadata>
+    		<o:viewParam name="condicaoPagamento" value="#{cadastroCondicaoPagamentoBean.condicaoPagamento}"/>
+    		<f:event listener="#{cadastroCondicaoPagamentoBean.inicializar}" type="preRenderView" />
+    	</f:metadata>
+    	<h:form>
+	    	<h1>#{cadastroCondicaoPagamentoBean.editando ? 'Edição de Condição de Pagamento' : 'Nova Condição de Pagamento'}</h1>
+	    	<p:messages autoUpdate="true" closable="true" />
+	    	<p:toolbar style="margin-top: 20px">
+	    		<p:toolbarGroup>
+	    			<p:button value="Novo" outcome="/condicaoPagamento/CadastroCondPagto" icon="ui-icon-document"/>
+	    			<p:commandButton value="Salvar" id="botaoSalvar"
+                                                 action="#{cadastroCondicaoPagamentoBean.salvar}" icon="ui-icon-disk"/>
+	    		</p:toolbarGroup>
+	    		<p:toolbarGroup align="right">
+	    			<p:button value="Pesquisa" outcome="/condicaoPagamento/PesquisaCondicoesPagamentos" icon="ui-icon-search"/>
+	    		</p:toolbarGroup>
+	    	</p:toolbar>
+	    	
+	    	<p:panelGrid columns="2" id="painel" style="width: 100%; margin-top: 20px"
+	    			columnClasses="rotulo, campo">
+	    		<p:outputLabel value="Nome" for="nome"/>
+	    		<p:inputText id="nome" size="60" maxlength="80" value="#{cadastroCondicaoPagamentoBean.condicaoPagamento.nome}"/>
+	    		
+	    		<p:outputLabel value="Ativo" for="ativo"/>
+	    		<p:selectBooleanCheckbox id="ativo" value="#{cadastroCondicaoPagamentoBean.condicaoPagamento.ativo}"/>
+	    		
+	    	</p:panelGrid>
+	    	
+	    	<p:separator />
+	    	
+	    	<p:commandButton icon="ui-icon-plus" value="Adicionar" title="Adicionar"
+	    		action="#{cadastroCondicaoPagamentoBean.AdicionarLinha}" update="tabelaItens"/>
+	    	
+	    	<p:separator/>
+	    	
+	    	<p:dataTable value="#{cadastroCondicaoPagamentoBean.itens}"
+	    		var="item" id="tabelaItens" rowIndexVar="linha" style="text-align: center; width: 300px">
+				<p:column headerText="Dias">
+					<p:inputText value="#{item.dias}" style="width: 60px"/>
+				</p:column>
+				<p:column headerText="Parcela">
+					<p:inputText value="#{item.parcela}" style="width: 60px"/>
+				</p:column>
+				<p:column headerText="Ações">
+					<p:commandButton icon="ui-icon-close" title="Excluir" 
+						action="#{cadastroCondicaoPagamentoBean.removerLinha(linha)}"
+						update="tabelaItens"/>
+				</p:column>
+			</p:dataTable>
+	    	
+    	</h:form>
+    </ui:define>
+</ui:composition>

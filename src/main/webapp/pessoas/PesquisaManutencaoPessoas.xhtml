@@ -1,0 +1,102 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="titulo">Pesquisa de Manutenção de Pessoas</ui:define>
+    
+    <ui:define name="corpo">
+    	<h:form id="frmPesquisa">
+	    	<h1>Pesquisa de Manutenção de Pessoas</h1>
+	    	
+	    	<p:toolbar style="margin-top: 20px">
+	    		<p:toolbarGroup>
+	    			<p:commandButton value="Pesquisar" action="#{pesquisaManutencaoPessoasBean.pesquisar}"
+	    				update="@form" icon="ui-icon-search"/>
+	    		</p:toolbarGroup>
+	    	</p:toolbar>
+	    	
+	    	<p:panelGrid columns="2" id="painel" style="width: 100%; margin-top: 20px"
+	    			columnClasses="rotulo, campo">
+	    		<p:outputLabel value="CNPJ/CPF" />
+	    		<h:panelGroup>
+	    			<p:inputText size="10" value="#{pesquisaManutencaoPessoasBean.filtro.cnpjCpf}" />
+	    		</h:panelGroup>
+	    		
+	    		<p:outputLabel value="Nome" />
+	    		<p:inputText size="40"  value="#{pesquisaManutencaoPessoasBean.filtro.razaoSocial}"/>
+	    		
+	    		<p:outputLabel value="Status" />
+	    		<p:selectOneMenu  value="#{pesquisaManutencaoPessoasBean.filtro.ativo}">
+	    			<f:selectItems value="#{pesquisaManutencaoPessoasBean.ativoInativoTodos}" var="status"
+	    				itemValue="#{status}" itemLabel="#{status.descricao}"/>
+	    		</p:selectOneMenu>
+	    		
+	    	</p:panelGrid>
+	    	
+	    	
+	    		<p:outputLabel value="cliente" style="display:none;"/>
+	    		<p:inputText size="40"  value="#{pesquisaManutencaoPessoasBean.filtro.cliente}" style="display:none;"/>
+	    		
+	    		<p:outputLabel value="fornecedor"  style="display:none;"/>
+	    		<p:inputText size="40"  value="#{pesquisaManutencaoPessoasBean.filtro.fornecedor}" style="display:none;"/>
+	    		
+	    		<p:outputLabel value="funcionario"  style="display:none;"/>
+	    		<p:inputText size="40"  value="#{pesquisaManutencaoPessoasBean.filtro.funcionario}" style="display:none;"/>
+	    		
+	    		<p:outputLabel value="transportadora"  style="display:none;"/>
+	    		<p:inputText size="40"  value="#{pesquisaManutencaoPessoasBean.filtro.transportadora}" style="display:none;"/>
+	    	
+	    	<p:dataTable id="pedidosTable" value="#{pesquisaManutencaoPessoasBean.pessoasFiltrados}" var="pessoa"
+	    		style="margin-top: 20px" emptyMessage="Nenhuma Pessoa encontrada."
+	    		rows="20" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom">
+	    		<p:column style="text-align: center; width: 100px" headerText="Ações">
+	    		
+	    			<p:button icon="ui-icon-pencil" title="Editar" outcome="/pessoas/CadastroManutencaoPessoa">
+	    				<f:param name="pessoa" value="#{pessoa.id}"/>
+	    			</p:button>
+	    			
+	    			<p:commandButton icon="#{pessoa.ativo ? 'ui-icon-check' : 'ui-icon-minus'}"
+	    				title="#{pessoa.ativo ? 'Desativar ManutencaoPessoa' : 'Ativar ManutencaoPessoa'}" process="@this" 
+	    				update="frmPesquisa, confirmacaoAlteracaoDialog" actionListener="#{pesquisaManutencaoPessoasBean.ativarDesativar(pessoa.id, pessoa.ativo)}">
+                        <p:confirm header="Alteração de Pessoa"
+                                   message="Tem certeza que deseja desativar/ativar a Pessoa"
+                                   icon="ui-icon-alert"/>
+                        <f:setPropertyActionListener value="#{pesquisaManutencaoPessoasBean.pessoaSelecionado}" target="#{Pessoa}"/>
+                    </p:commandButton>
+
+                    <p:confirmDialog global="true" id="confirmacaoAlteracaoDialog">
+                        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                        <p:commandButton value="Não"  type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    </p:confirmDialog>
+                    
+	    		</p:column>
+	    		
+	    		<p:column headerText="ID" style="text-align: center; width: 100px">
+	    			<h:outputText value="#{pessoa.id}"/>
+	    		</p:column>
+	    		<p:column headerText="Nome">
+	    			<h:outputText value="#{pessoa.razaoSocial}"/>
+	    		</p:column>
+	    		<p:column headerText="Cliente" style="text-align: center; width: 100px">
+	    			<h:outputText value="#{pessoa.cliente ? 'Sim' : 'Não'}"/>
+	    		</p:column>
+	    		<p:column headerText="Fornecedor" style="text-align: center; width: 100px">
+	    			<h:outputText value="#{pessoa.fornecedor ? 'Sim' : 'Não'}"/>
+	    		</p:column>
+	    		<p:column headerText="Funcionário" style="text-align: center; width: 100px">
+	    			<h:outputText value="#{pessoa.funcionario ? 'Sim' : 'Não'}"/>
+	    		</p:column>
+	    		<p:column headerText="Transportadora" style="text-align: center; width: 100px">
+	    			<h:outputText value="#{pessoa.transportadora ? 'Sim' : 'Não'}"/>
+	    		</p:column>
+	    		<p:column headerText="Status" style="text-align: center; width: 100px">
+	    			<h:outputText value="#{pessoa.ativo ? 'Sim' : 'Não'}"/>
+	    		</p:column>
+	    	</p:dataTable>
+	    	
+    	</h:form>
+    </ui:define>
+</ui:composition>

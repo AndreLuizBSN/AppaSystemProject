@@ -1,0 +1,57 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="titulo">Pesquisa de contas caixa</ui:define>
+    
+    <ui:define name="corpo">
+    	<h:form id="frmPesquisa">
+            <h1>Pesquisa de contas caixa</h1>
+	    	<p:messages autoUpdate="true" closable="true" />
+            <p:toolbar style="margin-top: 20px">
+                <p:toolbarGroup>
+                    <p:commandButton value="Pesquisar" icon="ui-icon-search" action="#{pesquisaCaixasBean.pesquisar}" update="@form"/>
+                </p:toolbarGroup>
+                <p:toolbarGroup align="right">
+                    <p:button value="Novo" outcome="/financeiro/CadastroContaCaixa" icon="ui-icon-document" />
+                </p:toolbarGroup>
+            </p:toolbar>
+
+            <p:panelGrid columns="2" id="painel" style="width: 100%; margin-top: 20px"
+                        columnClasses="rotulo, campo">
+                <p:outputLabel value="Nome" for="nome"/>
+                <p:inputText id="nome" size="60" value="#{pesquisaCaixasBean.filtro.nome}"/>
+            </p:panelGrid>
+
+            <p:dataTable id="produtosTable" value="#{pesquisaCaixasBean.contasCaixaFiltrados}" var="contaCaixa"
+                style="margin-top: 20px" emptyMessage="Nenhuma conta caixa encontrada." rows="20"
+                paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom">
+                
+                <p:column style="width: 100px; text-align: center" headerText="Ações">
+	    			<p:button icon="ui-icon-pencil" title="Editar" outcome="/financeiro/CadastroContaCaixa">
+	    				<f:param name="contaCaixa" value="#{contaCaixa.id}" />
+	    			</p:button>	    		
+	    		</p:column>
+                <p:column headerText="Código" style="text-align: center; width: 100px">
+                        <h:outputText value="#{contaCaixa.id}" />
+                </p:column>
+                <p:column headerText="Nome">
+                        <h:outputText value="#{contaCaixa.nome}" />
+                </p:column>
+	    		<p:column headerText="Ultimo Fechamento" style="text-align: center; width: 140px">
+	    			<h:outputText value="#{contaCaixa.dataUltimoFechamento}">
+	    				<f:convertDateTime pattern="dd/MM/yyyy" />
+	    			</h:outputText>
+	    		</p:column>
+	    		<p:column headerText="Saldo" style="text-align: right; width: 120px">
+	    			<h:outputText value="#{contaCaixa.saldo}">
+	    				<f:convertNumber type="currency" />
+	    			</h:outputText>
+                </p:column>
+	    	</p:dataTable>
+    	</h:form>
+    </ui:define>
+</ui:composition>

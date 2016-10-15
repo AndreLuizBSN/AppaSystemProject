@@ -1,0 +1,284 @@
+@charset "utf-8";
+
+/*Cabeçalho e rodapé*/
+
+body{
+    font-size: 12px;
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0px;
+    font-weight: normal;
+}
+
+header{
+    padding: 5px 0px;
+    /*margin-bottom: 30px;*/
+    height: 40px;
+    background-color: #545454;
+    color: #ffffff;
+    box-shadow: 0px 2px 2px #ccc;
+}
+
+header > div{
+    margin-left: 4px;
+}
+
+footer{
+    padding: 0px 8px;
+    margin-bottom: 10px;
+}
+
+/*Tags Padrões*/
+h1{
+    font-size: 24px;
+    font-weight: 500;
+    padding: 0px;
+    margin: 0px;
+    color: #545454;
+}
+.ajax-status{
+    position: fixed;
+    top: 55px;
+    right: 10px;
+}
+
+.ui-selectmanycheckbox label{
+    margin-top: 0px !important;
+    margin-right: 5px;
+}
+
+.botaoSair:hover{
+	background: none;
+	box-shadow: #ccc 0px 0px 10px !important;
+}
+
+.cab-usuario{
+    float: left;
+    height: 30px;
+    line-height: 30px;
+    margin-right: 60px;
+    font-weight:bold;
+    margin-top: 5px;
+}
+
+/*Menu sistema - Ini*/
+.menu-modulos{
+    margin-top: -6px;
+    margin-left: 0px;
+    width: 100%;
+    background-color: #545454;
+    
+}
+
+
+.menu-sistema{
+    border:0px !important;
+    /* padding: 0px !important; */
+    background: none !important;
+}
+
+.ui-menuitem-icon{
+    background-color: #fff !important;
+    margin-right: 5px
+}
+
+.menu-sistema-pers{
+    border-right: 1px solid #fff;
+}
+
+.menu-sistema .ui-menu-parent > a .ui-menuitem-text, 
+.menu-sistema .ui-menu-list > .ui-menuitem > a > .ui-menuitem-text{
+    color: #ffffff !important;
+}
+
+.menu-sistema .ui-menuitem-active > a.ui-state-hover{
+    background:  #646464;
+    box-shadow: #ccc 0px 0px 10px !important;
+}
+
+.ui-menu .ui-menu-parent .ui-menu-child {
+    background: #5f5f5f !important;
+}
+
+.ui-toolbar, .ui-button{
+    background: #545454 !important;
+    color:#fff !important;
+    border-color: #545454 !important;
+    text-shadow: 0px 0px 0px #fff !important;
+}
+
+.ui-state-default, .ui-inputfield{
+    box-shadow: 0px 0px 0px #fff !important;
+    //border: 1px solid #545454 !important;
+}
+
+.ui-selectonemenu .ui-selectonemenu-trigger{
+    background: #fff !important;
+}
+
+.ui-menu .ui-icon-triangle-1-s{
+    display: none !important;
+}
+
+.ui-state-hover{
+    //background:  #646464 !important;
+    box-shadow: #ccc 0px 0px 10px !important;
+    
+}
+
+.ui-tabs-nav .ui-state-hover{
+    background: #CCCCCC !important;
+}
+
+tfoot .ui-state-default{
+    background: #545454 !important;
+    color: #fff !important;
+    text-shadow: none !important;
+}
+
+.ui-separator .ui-icon{
+    background: transparent !important;
+}
+
+.ui-paginator{
+    background: #545454 !important;
+}
+
+.ui-icon{
+    background-color: #fff !important;
+}
+
+.ui-autocomplete-dropdown{
+    background: #fff !important;
+    border: #A8A8A8 1px solid !important;
+}
+
+thead .ui-state-default, .ui-column-title{
+    background: #545454 !important;
+    color: #fff;
+    text-shadow: none;
+}
+
+.ui-tabs-selected a{
+    color: #545454 !important;
+}
+
+.menuOcultoBotoes{
+	background-color: #fff;
+	width: 18px;
+	position: absolute;
+    border-radius: 8px;
+    padding: 5px 10px;
+    box-shadow: 0px 0px 5px gray ;
+    margin-left:-3px;
+    text-align: center;
+}
+
+.menuOcultoBotoes > a{
+	text-decoration: none;
+}
+
+.menuOcultoBotoes > a:hover{
+	font-weight: bold;
+}
+
+.menuOcultoBotoes > a > div{
+    color: #545454;
+}
+
+.icon-menu-oculto{
+	font-weight: bold;
+	font-size: 15px;
+}
+
+#menuItensOculto{
+	position: absolute;
+}
+
+#capaefectos{
+	background-color: #545454; 
+	color:#fff; 
+	padding:10px; 
+	position: absolute;
+	width: 300px;
+	display: none;
+	margin-left: 50px;
+    box-shadow: 0px 0px 5px gray ;
+    border-radius: 8px;
+    z-index:9999;
+}
+
+/*Menu sistema - Fim*/
+
+/*Conteúdo da Pagina*/
+#conteudo{
+    padding: 30px 8px 0px 50px;
+    min-height: 250px;
+}
+
+.rotulo{
+    width: 150px;
+}
+
+/*Tela de Login*/
+.h1-login{
+    text-align: center;
+}
+
+#login-dialog{
+    width: 290px;
+    margin: auto;
+    margin-top: 50px;
+}
+
+.grid-login{
+    background-color: #f2f2f2;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    margin-top:  8px;
+    padding: 10px;
+}
+
+.desenvolvido-msg{
+    text-align: center;
+    display: block;
+}
+
+.produto-tabela{
+    width: 100% !important;
+}
+
+.produto-tabela input{
+    width: 99%;
+}
+
+/*Tela de Erros*/
+.MostrarErrosTelaErros{
+    width: 998px;
+    padding: 10px;
+    border: 1px solid #ff0c00;
+    border-radius: 5px;
+    background-color: #f6ff9b;
+    box-shadow: 1px 0px 5px #ff0c00;
+    margin-top: 5px;
+    display: block;
+    opacity: 0.7;
+}
+
+
+/*Customiza TabView - Ini*/
+.ui-tabs .ui-tabs-panel{
+    padding: 0.5em 0.2em !important;
+}
+
+.ui-tabs{
+    padding: 0px !important;
+}
+
+.ui-tabs .ui-tabs-nav{
+    margin: -1px !important;
+}
+
+.ui-tabs.ui-tabs-top > .ui-tabs-nav{
+    padding: 0px !important;
+}
+/*Customiza TabView - Fim*/

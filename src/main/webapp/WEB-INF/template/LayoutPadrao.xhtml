@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+    
+    
+      <h:head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title><ui:insert name="titulo">Sistema de Pedidos de Venda</ui:insert></title>
+      <h:outputStylesheet library="css" name="sistema.css" />
+      <link rel="shortcut icon" type="image/ico" href="#{request.contextPath}/resources/images/pro.ico" />
+      <h:outputScript library="js" name="jquery.maskMoney.js"/>
+      <script>
+            function configurarMoeda(){
+                $(".moeda").maskMoney({
+                   decimal: ",",
+                   thousands: ".",
+                   allowZero: true
+                });
+            }
+            
+            $(document).ready(function (){
+               configurarMoeda(); 
+            });
+        </script>
+      </h:head>
+
+      <h:body>
+        <p:ajaxStatus styleClass="ajax-status" onsuccess="configurarMoeda()">
+            <f:facet name="start">
+                <h:graphicImage library="images" name="ajax-loader.gif"/>
+            </f:facet>
+            <f:facet name="complete">
+                <h:outputText value=""/>
+            </f:facet>
+            
+        </p:ajaxStatus>
+
+        <header>
+            <div style="float: left">
+                <h:link outcome="/Home">
+                    <h:graphicImage library="images" name="logo.png"/>
+                </h:link>
+            </div>
+
+            <div style="float: right; margin-right: 10px">
+                <span style="float: left; height: 30px; line-height: 30px; margin-top: 5px;">
+                Olá #{seguranca.nomeUsuario}!
+                </span>
+                <p:menubar style="display:inline-block;width:66px;background:none; border:none;">
+                	<p:menuitem value="Sair"  icon="ui-icon-extlink" style="margin-left: 10px; top: 7px; color:#fff;"
+                		styleClass="botaoSair"
+						url="/j_spring_security_logout"/>
+                </p:menubar>
+            </div>
+            <div style="clear: both"></div>
+            <hr />
+            
+        </header>
+
+		<script>
+			$(document).ready(function(){
+			$("#ocultar").click(function(event){
+				  event.preventDefault();
+				  $("#capaefectos").hide("fast");
+				  $("#ocultar").hide();
+				  $("#mostrar").show();
+				});
+			 
+				$("#mostrar").click(function(event){
+				  event.preventDefault();
+				  $("#capaefectos").show("fast");
+				  $("#mostrar").hide();
+				  $("#ocultar").show();
+				});
+			});
+			</script>
+			
+			<div id="menuItensOculto">
+				<div style="width: auto;">
+					<div id="capaefectos">
+					
+						<p:dataList value="#{viewModulosMasterBean.modulosListar}" var="modulo" type="definition">
+					        <f:facet name="header">
+					            Módulos
+					        </f:facet>
+					        <p style="margin-left: 10px;">
+					        	<a href="#{request.contextPath}/Modulo.xhtml?modulo=#{viewModulosMasterBean.eModulo(modulo.nome)}">
+					        		#{modulo.nome}
+					        	</a>
+					        </p>
+					        <f:facet name="footer">
+						        <p style="margin-left: 10px;">
+						        	<a href="#{request.contextPath}/Modulo.xhtml">
+						        		Todos os Modulos
+						        	</a>
+						        </p>
+					        </f:facet>
+					    </p:dataList>
+					  
+					</div>
+					
+					<div class="menuOcultoBotoes">
+						<a href="#" id="ocultar" style="display: none;">
+							<div>
+								<span class="icon-menu-oculto"> « </span>
+								<p:separator/>
+								M
+								<br />
+								E
+								<br />
+								N
+								<br />
+								U
+								<br />
+							</div>
+						</a> 
+						<a href="#" id="mostrar">
+							<div>
+								<span class="icon-menu-oculto"> » </span>
+								<p:separator/>
+								M
+								<br />
+								E
+								<br />
+								N
+								<br />
+								U
+								<br />
+							</div>
+						</a>  
+					</div>
+				</div>
+			</div>
+        <div id="conteudo">
+            <ui:insert name="corpo"/>
+        </div>
+
+        <p:separator style="margin-top: 20px"/>
+
+        <footer>
+            AppaSystem - Sistemas Comerciais
+            <a href="https://www.google.com" target="_blank">www.google.com</a>
+        </footer>
+
+    </h:body>
+	
+</html>

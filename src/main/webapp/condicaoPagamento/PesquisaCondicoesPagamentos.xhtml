@@ -1,0 +1,53 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="titulo">Pesquisa de Condições de Pagamento</ui:define>
+    
+    <ui:define name="corpo">
+    
+    	<h:form id="frmPesquisa">
+	    	<h1>Pesquisa de Condições de Pagamento</h1>
+	    	<p:messages autoUpdate="true" closable="true" />
+	    	<p:toolbar style="margin-top: 20px">
+	    		<p:toolbarGroup>
+	    			<p:commandButton value="Pesquisar/Carregar" action="#{pesquisaCondicoesPagamentosBean.pesquisar}" update="@form" icon="ui-icon-search"/>
+	    		</p:toolbarGroup>
+	    		<p:toolbarGroup align="right">
+	    			<p:button value="Novo" outcome="/condicaoPagamento/CadastroCondPagto.xhtml" icon="ui-icon-document" />
+	    		</p:toolbarGroup>
+	    	</p:toolbar>
+	    	
+	    	<p:panelGrid columns="2" id="painel" style="width: 100%; margin-top: 20px"
+	    			columnClasses="rotulo, campo">
+	    		<p:outputLabel value="Nome" for="nome"/>
+	    		<p:inputText id="nome" size="20" value="#{pesquisaCondicoesPagamentosBean.filtro.nome}" />
+	    		
+	    		<p:outputLabel for="filtroRapido" value="Filtro Rápido"/>
+	    		<p:selectOneMenu id="filtroRapido" value="#{pesquisaCondicoesPagamentosBean.filtro.intAtivo}">
+	    			<f:selectItem itemLabel="Todos" itemValue="-1"/>
+	    			<f:selectItem itemLabel="Ativos" itemValue="1" />
+	    			<f:selectItem itemLabel="Inativos" itemValue="0" />
+	    		</p:selectOneMenu>
+	    		
+	    	</p:panelGrid>
+	    	
+	    	<p:dataTable id="produtosTable" value="#{pesquisaCondicoesPagamentosBean.condicoesPagamentosFiltrados}"
+	    		var="condicaoPagamento"
+	    		style="margin-top: 20px" emptyMessage="Nenhuma condicao de pagamento encontrada." rows="20"
+	    		paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom">
+	    		<p:column style="width: 100px; text-align: center" headerText="Ações">
+	    			<p:button icon="ui-icon-pencil" title="Editar" outcome="/condicaoPagamento/CadastroCondPagto">
+	    				<f:param name="condicaoPagamento" value="#{condicaoPagamento.id}"/>
+	    			</p:button>	    		
+	    		</p:column>
+	    		<p:column headerText="Nome">
+	    			<h:outputText value="#{condicaoPagamento.nome}" />
+	    		</p:column>
+	    	</p:dataTable>
+    	</h:form>
+    </ui:define>
+</ui:composition>

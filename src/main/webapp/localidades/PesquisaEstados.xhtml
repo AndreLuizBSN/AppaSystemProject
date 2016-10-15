@@ -1,0 +1,61 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="titulo">Pesquisa de estados</ui:define>
+    
+    <ui:define name="corpo">
+    	<h:form>
+            <h1>Pesquisa de estados</h1>
+	    	
+            <p:toolbar style="margin-top: 20px">
+                <p:toolbarGroup>
+                    <p:commandButton value="Pesquisar" icon="ui-icon-search" action="#{pesquisaEstadosBean.pesquisar}" update="@form"/>
+                </p:toolbarGroup>
+                <p:toolbarGroup align="right">
+                    <p:button value="Novo" outcome="/localidades/CadastroEstado" icon="ui-icon-document"/>
+                </p:toolbarGroup>
+            </p:toolbar>
+	    	
+            <p:panelGrid columns="4" id="painel" style="width: 100%; margin-top: 20px"
+                            columnClasses="rotulo, campo">
+
+                <p:outputLabel value="Sigla" for="sigla"/>
+                <p:inputText id="sigla" size="14" value="#{pesquisaEstadosBean.filtro.sigla}"/>
+
+				<p:outputLabel value="Região" for="regiao"/>
+		        <p:selectOneMenu id="regiao" value="#{pesquisaEstadosBean.filtro.regiao}">
+		            <f:selectItem itemLabel="Selecione uma região" />
+		            <f:selectItems value="#{cadastroEstadoBean.regioes}" var="regiao"
+			    				itemValue="#{regiao}" itemLabel="#{regiao.descricao}" />
+		        </p:selectOneMenu>
+
+                <p:outputLabel value="Nome" for="nome"/>
+                <p:inputText id="nome" size="60" value="#{pesquisaEstadosBean.filtro.nome}"/>
+
+            </p:panelGrid>
+	    	
+            <p:dataTable id="produtosTable" value="#{pesquisaEstadosBean.estadosFiltrados}" var="estados"
+                style="margin-top: 20px" emptyMessage="Nenhum estado encontrado." rows="20"
+                paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom">
+                <p:column style="width: 100px; text-align: center;" headerText="Ações">
+                    <p:button icon="ui-icon-pencil" title="Editar" outcome="/localidades/CadastroEstado">
+	    				<f:param name="estado" value="#{estados.id}"/>
+	    			</p:button>
+                </p:column>
+                <p:column headerText="Sigla" style="width: 250px">
+                	<h:outputText value="#{estados.sigla}"/>
+                </p:column>
+                <p:column headerText="Nome">
+                    <h:outputText value="#{estados.nome}" />
+                </p:column>
+                <p:column headerText="Região" style="width: 250px">
+                    <h:outputText value="#{estados.regiao.descricao}"/>
+                </p:column>
+	    </p:dataTable>
+    	</h:form>
+    </ui:define>
+</ui:composition>

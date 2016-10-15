@@ -1,0 +1,45 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:o="http://omnifaces.org/ui">
+
+    <ui:define name="titulo">Novo Grupo de Usuário</ui:define>
+    
+    <ui:define name="corpo">
+    	<f:metadata>
+    		<o:viewParam name="grupo" value="#{cadastroGrupoUsuarioBean.id}"/>
+    		<f:event listener="#{cadastroGrupoUsuarioBean.inicializar}" type="preRenderView" />
+    	</f:metadata>
+    	<h:form>
+	    	<h1>#{cadastroGrupoBean.editando ? 'Edição de Grupo' : 'Novo Grupo'}</h1>
+			<p:messages autoUpdate="true" closable="true" />
+            <p:toolbar style="margin-top: 20px">
+                <p:toolbarGroup>
+                    <p:button value="Novo" outcome="/usuarios/CadastroGrupo" icon="ui-icon-document"/>
+                    <p:commandButton value="Salvar" id="botaoSalvar"
+                            action="#{cadastroGrupoUsuarioBean.salvar}" icon="ui-icon-disk"/>
+                </p:toolbarGroup>
+                <p:toolbarGroup align="right">
+                    <p:button value="Pesquisa" outcome="/usuarios/PesquisaGrupos" icon="ui-icon-search"/>
+                </p:toolbarGroup>
+            </p:toolbar>
+	    	
+            <p:panelGrid columns="2" id="painel" style="width: 100%; margin-top: 20px"
+                            columnClasses="rotulo, campo">
+
+                <p:outputLabel value="Nome" for="nome"/>
+                <p:inputText id="nome" size="100" maxlength="100" value="#{cadastroGrupoUsuarioBean.grupo.nome}"/>
+
+                <p:outputLabel value="Descrição" for="desc"/>
+                <p:inputText id="desc" size="150" maxlength="255" value="#{cadastroGrupoUsuarioBean.grupo.descricao}"/>
+
+            </p:panelGrid>
+                
+                
+                
+    	</h:form>
+    </ui:define>
+</ui:composition>

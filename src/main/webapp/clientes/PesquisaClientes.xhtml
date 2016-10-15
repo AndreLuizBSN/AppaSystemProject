@@ -1,0 +1,62 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="titulo">Pesquisa de clientes</ui:define>
+    
+    <ui:define name="corpo">
+    	<h:form>
+            <h1>Pesquisa de clientes</h1>
+	    	
+            <p:toolbar style="margin-top: 20px">
+                <p:toolbarGroup>
+                    <p:commandButton value="Pesquisar" icon="ui-icon-search" action="#{pesquisaClientesBean.pesquisar}" update="@form"/>
+                </p:toolbarGroup>
+                <p:toolbarGroup align="right">
+                    <p:button value="Novo" outcome="/clientes/CadastroCliente" icon="ui-icon-document"/>
+                </p:toolbarGroup>
+            </p:toolbar>
+	    	
+            <p:panelGrid columns="2" id="painel" style="width: 100%; margin-top: 20px"
+                            columnClasses="rotulo, campo">
+
+                <p:outputLabel value="CNPJ/CPF" for="cnpjCpf"/>
+                <p:inputText id="cnpjCpf" size="14" value="#{pesquisaClientesBean.filtro.cnpjCpf}"/>
+
+                <p:outputLabel value="Nome" for="nome"/>
+                <p:inputText id="nome" size="60" value="#{pesquisaClientesBean.filtro.nome}"/>
+
+            </p:panelGrid>
+	    	
+            <p:dataTable id="produtosTable" value="#{pesquisaClientesBean.clientesFiltrados}" var="clientes"
+                style="margin-top: 20px" emptyMessage="Nenhum cliente encontrado." rows="20"
+                paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom">
+                <p:column style="width: 100px; text-align: center;" headerText="Ações">
+                    <p:button icon="ui-icon-pencil" title="Editar"/>
+                    <p:commandButton icon="ui-icon-trash" title="Excluir" oncomplete="confirmacaoExclusao.show()" />
+                    
+                    <p:confirmDialog header="Exclusão de produto" message="Tem certeza que deseja excluir o produto?"
+	    				widgetVar="confirmacaoExclusao">
+	                    <p:button value="Não" onclick="confirmacaoExclusao.hide(); return false;" />
+	                    <p:commandButton value="Sim" oncomplete="confirmacaoExclusao.hide();" />
+	    			</p:confirmDialog>
+                </p:column>
+                <p:column headerText="ID" style="text-align: center; width: 100px">
+                	<h:outputText value="#{clientes.id}" />
+                </p:column>
+                <p:column headerText="Nome">
+                    <h:outputText value="#{clientes.nome}" />
+                </p:column>
+                <p:column headerText="CNPJ/CPF" style="width: 250px">
+                	<h:outputText value="#{clientes.documentoReceitaFederal}"/>
+                </p:column>
+                <p:column headerText="Tipo" style="width: 250px">
+                        <h:outputText value="#{clientes.tipo.descricao}"/>
+                </p:column>
+	    </p:dataTable>
+    	</h:form>
+    </ui:define>
+</ui:composition>

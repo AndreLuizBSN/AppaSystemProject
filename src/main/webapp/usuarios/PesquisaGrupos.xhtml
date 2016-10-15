@@ -1,0 +1,55 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="titulo">Pesquisa de Grupos de Usuarios</ui:define>
+    
+    <ui:define name="corpo">
+    	<h:form id="frmPesquisa">
+            <h1>Pesquisa de Grupos de Usuarios</h1>
+	    	<p:messages autoUpdate="true" closable="true" />
+            <p:toolbar style="margin-top: 20px">
+                <p:toolbarGroup>
+                    <p:commandButton value="Pesquisar" icon="ui-icon-search" action="#{pesquisaGruposBean.pesquisar}" update="@form"/>
+                </p:toolbarGroup>
+                <p:toolbarGroup align="right">
+                    <p:button value="Usuários" title="Pesquisa de Usuários" outcome="/usuarios/PesquisaUsuarios" icon="ui-icon-search"/>
+                    <p:separator />
+                    <p:button value="Novo" outcome="/usuarios/CadastroGrupo" icon="ui-icon-document"/>
+                </p:toolbarGroup>
+            </p:toolbar>
+
+            <p:panelGrid columns="2" id="painel" style="width: 100%; margin-top: 20px"
+                            columnClasses="rotulo, campo">
+
+                <p:outputLabel value="Nome" for="nome"/>
+                <p:inputText id="nome" size="100" value="#{pesquisaGruposBean.filtro.nome}"/>
+                
+                <p:outputLabel value="Descrição" for="desc"/>
+                <p:inputText id="desc" size="150" maxlength="255" value="#{pesquisaGruposBean.filtro.descricao}"/>
+                
+            </p:panelGrid>
+
+            <p:dataTable id="produtosTable" value="#{pesquisaGruposBean.gruposFiltrados}" var="grupo"
+                style="margin-top: 20px" emptyMessage="Nenhum grupo encontrado." rows="20"
+                paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom">
+                <p:column style="width: 100px; text-align: center" headerText="Ações">
+	    			<p:button icon="ui-icon-pencil" title="Editar" outcome="/usuarios/CadastroGrupo">
+	    				<f:param name="grupo" value="#{grupo.id}"/>
+	    			</p:button>
+
+	    		</p:column>
+                
+                <p:column headerText="ID" style="text-align: center; width: 100px">
+                        <h:outputText value="#{grupo.id}" />
+                </p:column>
+                <p:column headerText="Nome">
+                        <h:outputText value="#{grupo.nome}" />
+                </p:column>
+            </p:dataTable>
+    	</h:form>
+    </ui:define>
+</ui:composition>

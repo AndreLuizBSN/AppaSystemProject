@@ -1,0 +1,48 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="titulo">Novo cliente</ui:define>
+    
+    <ui:define name="corpo">
+    	<h:form>
+            <h1>Novo cliente</h1>
+
+            <p:toolbar style="margin-top: 20px">
+                <p:toolbarGroup>
+                    <p:button value="Novo" outcome="/clientes/CadastroCliente" icon="ui-icon-document" />
+                    <p:commandButton value="Salvar" id="botaoSalvar"
+                            action="#{cadastroProdutosBean.salvar}" icon="ui-icon-disk"/>
+                </p:toolbarGroup>
+                <p:toolbarGroup align="right">
+                    <p:button value="Pesquisa" outcome="/clientes/PesquisaClientes" icon="ui-icon-search"/>
+                </p:toolbarGroup>
+            </p:toolbar>
+	    	
+            <p:panelGrid columns="2" id="painel" style="width: 100%; margin-top: 20px"
+                            columnClasses="rotulo, campo">
+
+                <p:outputLabel value="Tipo" for="tipoPessoa" />
+                <p:selectOneMenu id="tipoPessoa" value="#{cadastroClienteBean.cliente.tipo}">
+                    <f:selectItem itemLabel="Selecione" />
+                </p:selectOneMenu>
+
+                <p:outputLabel value="CNPJ/CPF" for="cnpjCpf"/>
+                <p:inputMask mask="99.999.999/9999-99" id="cnpjCpf" size="18" maxlength="80" value="#{cadastroClienteBean.cliente.documentoReceitaFederal}"/>
+
+                <p:outputLabel value="Nome" for="nome"/>
+                <p:inputText id="nome" size="150" maxlength="120" value="#{cadastroClienteBean.cliente.nome}"/>
+
+                <p:outputLabel value="E-Mail" for="email"/>
+                <p:inputText id="email" size="150" maxlength="120" value="#{cadastroClienteBean.cliente.email}"/>
+
+            </p:panelGrid>
+                
+                
+                
+    	</h:form>
+    </ui:define>
+</ui:composition>
